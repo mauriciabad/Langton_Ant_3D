@@ -153,4 +153,5 @@ camera.position.z -= Math.max(Math.min((mouse.y - e.clientY) * 0.01, cameraMoves
     mouse.y = e.clientY;
 
 }
+
 window.addEventListener('mousemove', mouseMove);

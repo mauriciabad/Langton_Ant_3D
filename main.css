@@ -123,5 +123,6 @@ body{
     pointer-events: none;
   }
   .tile input:checked ~ .fa{
-    transform: rotate(180deg);
+    /* transform: rotate(180deg); */
+    background-color: #0F2027;    
   }
