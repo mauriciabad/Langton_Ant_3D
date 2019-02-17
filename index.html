@@ -14,10 +14,9 @@
     <div id="canvas"></div>
     <span class="step">Step: <span id="step">0</span></span>
     <div class="controls" >
-        <h2>Controls</h2>
-        <div class="input-group">
-            <label for="speed">Steps per frame:</label>
-            <input type="number" id="speed" name="speed" value="100" onkeyup="let val = parseFloat(this.value.replace(/,/, '.')); if(!isNaN(val) && val >= 0) stepsPerFrame = val;" step="0.01" min="0" required>
+        <h2>Speed</h2>
+        <div class="slider-container">
+            <input class="slider" id="speed" type="range" value="5150" min="0" max="10000" step="1" oninput="setStep(parseFloat(this.value.replace(/,/, '.')));">
         </div>
         <h2 hidden>Steps</h2>
         <div hidden class="step-tiles">

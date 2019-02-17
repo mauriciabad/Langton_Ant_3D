@@ -8,9 +8,9 @@ var ant = {x: 0, z: 0, dir: 0};
 // var directions = [1,-1,-1,1];
 // var directions = [1,-1,1];
 // var directions = [-1,1,1,1,1,1,1,-1,-1,1];
-// var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
+var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
 // var directions = [1,1,-1,-1,-1,1,-1,1,-1,1,1,-1];
-var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
+// var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
 var grid = {};
 var changed = {};
 var colors = [
@@ -90,6 +90,11 @@ function animate() {
   renderer.clear();
   renderer.render(scene,camera);
 };
+
+function setStep(x) {
+  let y = (x**6 / 10000**5 + x/10000)/1.0001; 
+  if(!isNaN(y) && y >= 0) stepsPerFrame = y;
+}
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
