@@ -31,11 +31,11 @@ var colors = [
 
 for (var col of colors) {
   materials.push(new THREE.MeshPhongMaterial( { color: col} ));
-  // materials.push(new THREE.PhongMaterial({'color': col, 'shading': THREE.SmoothShading}));
 }
 
 var roundedBoxGeometry = createBoxWithRoundedEdges(0.95, 0.95, 0.95, .15, 2);
-roundedBoxGeometry.computeVertexNormals();
+roundedBoxGeometry.computeFaceNormals();
+// roundedBoxGeometry.computeVertexNormals();
 
 window.onload = function() {
   init();
