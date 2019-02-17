@@ -17,7 +17,7 @@
         <h2>Controls</h2>
         <div class="input-group">
             <label for="speed">Steps per frame:</label>
-            <input type="number" id="speed" name="speed" value="1" onkeyup="let val = parseInt(this.value); if(!isNaN(val) && val >= 0) stepsPerFrame = val;" step="0.01" min="0" required>
+            <input type="number" id="speed" name="speed" value="1" onkeyup="let val = parseFloat(this.value.replace(/,/, '.')); if(!isNaN(val) && val >= 0) stepsPerFrame = val;" step="0.01" min="0" required>
         </div>
         <h2 hidden>Steps</h2>
         <div hidden class="step-tiles">
