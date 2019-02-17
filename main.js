@@ -28,6 +28,7 @@ var colors = [
   '#4B5267', //gray
   '#D2FF0A', //green fluorescent
 ];
+var antMaterial = new THREE.MeshPhongMaterial( { color: '#555'} );
 
 for (var col of colors) {
   materials.push(new THREE.MeshPhongMaterial( { color: col} ));
@@ -66,7 +67,7 @@ function init() {
   
   antObj = addCube({
     'x': 0, 'y': 1, 'z': 0,
-    'color': '0'
+    'material': antMaterial
   });
   scene.add(antObj);
   
@@ -96,8 +97,8 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function addCube({x = 0, y = 0, z = 0, color=0} = {}) {
-  var tile = new THREE.Mesh(roundedBoxGeometry, materials[color]);
+function addCube({x = 0, y = 0, z = 0, color=0,material} = {}) {
+  var tile = new THREE.Mesh(roundedBoxGeometry, (material) ? material : materials[color]);
   tile.position.x = x + 0.5;
   tile.position.y = y + 0.5;
   tile.position.z = z + 0.5;
