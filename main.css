@@ -11,14 +11,12 @@ body{
     color: white; 
     font-size: 2em;
     text-shadow: 0 4px 32px rgba(0,0,0,0.3);
-    overflow-y: scroll;
-    scroll-behavior: smooth;
   }
   .controls{
     position: fixed; 
     top: 1em; 
     left: -1em; 
-    bottom: 1em; 
+    /* bottom: 1em;  */
     width: 20em; 
     max-width: 50vw;
     background-color: #eee; 
@@ -27,6 +25,8 @@ body{
     padding: 2em 2em 2em 2.5em;
     box-sizing: border-box;
     color: #333;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
   }
   .controls > h2{
     margin: 1em 0;

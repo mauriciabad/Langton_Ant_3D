@@ -1,8 +1,8 @@
 var renderer, scene, camera, composer, antObj;
 var step = 0;
-var stepsPerFrame = 10;
+var stepsPerFrame = 1;
 var floor = new THREE.Object3D();
-var ant = {x: 0, z: 0, dir: -90};
+var ant = {x: 0, z: 0, dir: 0};
 var directions = [1,-1,1,1,-1,-1,1,-1,1];
 var grid = {};
 var colors = [
@@ -10,11 +10,15 @@ var colors = [
   '#DB5461', //red
   '#018E42', //green
   '#e0ca2c', //yellow
-  '#9b4d9a', //purple
+  '#F896D8', //pink
+  '#DBD3AD', //white
+  '#87CBAC', //blue ice
   '#F48D2C', //orange
   '#3878af', //blue dark
+  '#9b4d9a', //purple
+  '#AD8350', //brown
+  '#4B5267', //gray
   '#D2FF0A', //green fluorescent
-  '#DBD3AD', //white
 ];
 
 window.onload = function() {
@@ -33,7 +37,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-  camera.position.set(10, 10, 10);
+  camera.position.set(-10, 10, -10);
   camera.lookAt(new THREE.Vector3(0,0,0));
 
     // Moure camera
@@ -57,7 +61,7 @@ function init() {
   
   var lights = [];
   lights[0] = new THREE.DirectionalLight( 0xffffff, 0.8);
-  lights[0].position.set( 3, 3, 3 );
+  lights[0].position.set( -3, 3, -3 );
   scene.add( lights[0] );
   
   window.addEventListener('resize', onWindowResize, false);
@@ -111,9 +115,9 @@ function nextStep() {
         'x': parseInt(x), 
         'y': 0, 
         'z': parseInt(z),
-        'color': colors[grid[x][z]+1 % colors.length]
+        'color': colors[((grid[x][z]+1) % directions.length) % colors.length]
       }));
-  grid[x][z] = (grid[x][z]+1) % colors.length;
+  grid[x][z] = (grid[x][z]+1) % directions.length;
   let deg = (directions[grid[x][z]] * 90 + ant.dir) % 360;
   ant.x += Math.round(Math.cos((deg*Math.PI)/180));
   ant.z += Math.round(Math.sin((deg*Math.PI)/180));
