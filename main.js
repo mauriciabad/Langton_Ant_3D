@@ -1,11 +1,12 @@
 var renderer, scene, camera, composer, antObj;
 var pendingSteps = 0;
 var step = 0;
-var stepsPerFrame = 1;
+var stepsPerFrame = 100;
 var floor = new THREE.Object3D();
 var ant = {x: 0, z: 0, dir: 0};
-var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1];
+var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1,-1];
 var grid = {};
+var changed = {};
 var colors = [
 	'#3891A6', //cyan
   '#DB5461', //red
@@ -21,6 +22,10 @@ var colors = [
   '#4B5267', //gray
   '#D2FF0A', //green fluorescent
 ];
+/////////////////////////////////////////////////
+if (colors.length !== directions.length)       //
+  alert('Mismatching colors and directions!')  //
+/////////////////////////////////////////////////
 
 window.onload = function() {
   init();
@@ -96,35 +101,52 @@ function addCube({x = 0, y = 0, z = 0, color=0xDB5461, size=0.95} = {}) {
   return tile;
 }
 function move(steps = 1){
-  pendingSteps += steps;
-  let stepsToMove = Math.floor(pendingSteps);
-  pendingSteps -= stepsToMove;
-  step += stepsToMove;
+  
+  step += steps;
   document.getElementById('step').textContent = step;
-  for(let i=0; i<stepsToMove; i++) nextStep();
+
+  changed = {};
+
+  for(let i=0; i<steps; i++) nextStep();
+
+  for (let x in changed) {
+    for (let z in changed[x]) {
+      let cubeToChange = floor.getObjectByName( '('+x+','+z+')' )
+      if (cubeToChange) {
+        cubeToChange.material.color = hexToRgb(colors[changed[x][z]]);
+      }
+      else {
+        floor.add(addCube({
+          'x': parseInt(x), 
+          'y': 0, 
+          'z': parseInt(z),
+          'color': colors[changed[x][z]]
+        })); 
+      }
+    }
+  }
 }
 function nextStep() {
   let x = ant.x.toString();
   let z = ant.z.toString();
   moveAnt(ant.x, ant.z);
-  if(grid[x] == undefined) grid[x] = {};
+
+  if(grid[x] == undefined) {
+    grid[x] = {};
+  }
   if(grid[x][z] == undefined) {
     grid[x][z] = -1;
   }
-  floor.remove(floor.getObjectByName( '('+x+','+z+')' ));
-  floor.add(addCube({
-        'x': parseInt(x), 
-        'y': 0, 
-        'z': parseInt(z),
-        'color': colors[((grid[x][z]+1) % directions.length) % colors.length]
-      }));
-  grid[x][z] = (grid[x][z]+1) % directions.length;
+  if (changed[x] == undefined) {
+    changed[x] = {};
+  }
+  changed[x][z] = (grid[x][z]+1) % colors.length;
+  grid[x][z] = (grid[x][z]+1) % colors.length;
   let deg = (directions[grid[x][z]] * 90 + ant.dir) % 360;
   ant.x += Math.round(Math.cos((deg*Math.PI)/180));
   ant.z += Math.round(Math.sin((deg*Math.PI)/180));
   ant.dir = deg;
 }
-
 function moveAnt(x=0,z=0) {
   antObj.position.x = x + 0.5;
   antObj.position.z = z + 0.5;
@@ -149,4 +171,17 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   });
   geometry.center();
   return geometry;
+}
+
+const hexToRgb = function(hex) {
+  let l = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+    .substring(1).match(/.{2}/g)
+    .map(x => parseInt(x, 16) / 255);
+  let d = {
+    'r': l[0],
+    'g': l[1],
+    'b': l[2]
+  }
+  return d;
 }
