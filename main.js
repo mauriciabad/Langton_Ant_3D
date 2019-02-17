@@ -1,4 +1,5 @@
 var renderer, scene, camera, composer, antObj;
+var materials = [];
 var pendingSteps = 0;
 var step = 0;
 var stepsPerFrame = 100;
@@ -12,7 +13,6 @@ var ant = {x: 0, z: 0, dir: 0};
 var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
 var grid = {};
 var changed = {};
-var colorsRGB = [];
 var colors = [
   '#DB5461', //red
   '#3891A6', //cyan
@@ -30,8 +30,12 @@ var colors = [
 ];
 
 for (var col of colors) {
-  colorsRGB.push(hexToRgb(col));
+  materials.push(new THREE.MeshPhongMaterial( { color: col} ));
+  // materials.push(new THREE.PhongMaterial({'color': col, 'shading': THREE.SmoothShading}));
 }
+
+var roundedBoxGeometry = createBoxWithRoundedEdges(0.95, 0.95, 0.95, .15, 2);
+roundedBoxGeometry.computeVertexNormals();
 
 window.onload = function() {
   init();
@@ -61,8 +65,7 @@ function init() {
   
   antObj = addCube({
     'x': 0, 'y': 1, 'z': 0,
-    'size': 0.95,
-    'color': '#222'
+    'color': '0'
   });
   scene.add(antObj);
   
@@ -92,20 +95,15 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function addCube({x = 0, y = 0, z = 0, color=0xDB5461, size=0.95} = {}) {
-  var roundedBoxGeometry = createBoxWithRoundedEdges(size, size, size, .15, 3);
-  roundedBoxGeometry.computeVertexNormals();  
-
-  var mat = new THREE.MeshPhongMaterial({
-    'color': color
-  });
-  var tile = new THREE.Mesh(roundedBoxGeometry, mat);
+function addCube({x = 0, y = 0, z = 0, color=0} = {}) {
+  var tile = new THREE.Mesh(roundedBoxGeometry, materials[color]);
   tile.position.x = x + 0.5;
   tile.position.y = y + 0.5;
   tile.position.z = z + 0.5;
   tile.name = '('+x+','+z+')';
   return tile;
 }
+
 function move(steps = 1){
   
   step += steps;
@@ -119,14 +117,12 @@ function move(steps = 1){
     for (let z in changed[x]) {
       let cubeToChange = floor.getObjectByName( '('+x+','+z+')' )
       if (cubeToChange) {
-        cubeToChange.material.color = colorsRGB[changed[x][z]];
+        cubeToChange.material = materials[changed[x][z]];
       }
       else {
         floor.add(addCube({
-          'x': parseInt(x), 
-          'y': 0, 
-          'z': parseInt(z),
-          'color': colors[changed[x][z]]
+          'x': parseInt(x), 'y': 0, 'z': parseInt(z),
+          'color': changed[x][z]
         })); 
       }
     }
@@ -177,16 +173,4 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   });
   geometry.center();
   return geometry;
-}
-
-function hexToRgb(hex) {
-  let l = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-    .substring(1).match(/.{2}/g)
-    .map(x => parseInt(x, 16) / 255);
-  return {
-    'r': l[0],
-    'g': l[1],
-    'b': l[2]
-  }
 }
