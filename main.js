@@ -4,13 +4,18 @@ var step = 0;
 var stepsPerFrame = 100;
 var floor = new THREE.Object3D();
 var ant = {x: 0, z: 0, dir: 0};
-var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1,-1];
+// var directions = [1,-1,-1,1];
+// var directions = [1,-1,1];
+// var directions = [-1,1,1,1,1,1,1,-1,-1,1];
+// var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
+// var directions = [1,1,-1,-1,-1,1,-1,1,-1,1,1,-1];
+var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
 var grid = {};
 var changed = {};
 var colorsRGB = [];
 var colors = [
-  '#3891A6', //cyan
   '#DB5461', //red
+  '#3891A6', //cyan
   '#018E42', //green
   '#e0ca2c', //yellow
   '#F896D8', //pink
@@ -23,10 +28,6 @@ var colors = [
   '#4B5267', //gray
   '#D2FF0A', //green fluorescent
 ];
-/////////////////////////////////////////////////
-if (colors.length !== directions.length)       //
-  alert('Mismatching colors and directions!')  //
-/////////////////////////////////////////////////
 
 for (var col of colors) {
   colorsRGB.push(hexToRgb(col));
@@ -145,8 +146,8 @@ function nextStep() {
   if (changed[x] == undefined) {
     changed[x] = {};
   }
-  changed[x][z] = (grid[x][z]+1) % colors.length;
-  grid[x][z] = (grid[x][z]+1) % colors.length;
+  changed[x][z] = (grid[x][z]+1) % directions.length;
+  grid[x][z] = (grid[x][z]+1) % directions.length;
   let deg = (directions[grid[x][z]] * 90 + ant.dir) % 360;
   ant.x += Math.round(Math.cos((deg*Math.PI)/180));
   ant.z += Math.round(Math.sin((deg*Math.PI)/180));
