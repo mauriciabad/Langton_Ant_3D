@@ -41,7 +41,7 @@ function init() {
   camera.position.set(-10, 10, -10);
   camera.lookAt(new THREE.Vector3(0,0,0));
 
-    // Moure camera
+  // Move camera
   controls = new THREE.OrbitControls( camera, renderer.domElement );
 
   scene.add(camera);
@@ -106,8 +106,7 @@ function move(steps = 1){
 function nextStep() {
   let x = ant.x.toString();
   let z = ant.z.toString();
-  antObj.position.x = ant.x + 0.5;
-  antObj.position.z = ant.z + 0.5;
+  moveAnt(ant.x, ant.z);
   if(grid[x] == undefined) grid[x] = {};
   if(grid[x][z] == undefined) {
     grid[x][z] = -1;
@@ -126,6 +125,10 @@ function nextStep() {
   ant.dir = deg;
 }
 
+function moveAnt(x=0,z=0) {
+  antObj.position.x = x + 0.5;
+  antObj.position.z = z + 0.5;
+}
 
 function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) {
   let shape = new THREE.Shape();

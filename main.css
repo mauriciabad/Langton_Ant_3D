@@ -11,6 +11,7 @@ body{
     color: white; 
     font-size: 2em;
     text-shadow: 0 4px 32px rgba(0,0,0,0.3);
+    z-index: 1;
   }
   .controls{
     position: fixed; 
@@ -27,6 +28,7 @@ body{
     color: #333;
     overflow-y: scroll;
     scroll-behavior: smooth;
+    z-index: 1;
   }
   .controls > h2{
     margin: 1em 0;
