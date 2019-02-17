@@ -1,16 +1,20 @@
 var renderer, scene, camera, composer, antObj;
 var step = 0;
-var stepsPerFrame = 1;
+var stepsPerFrame = 10;
 var floor = new THREE.Object3D();
 var ant = {x: 0, z: 0, dir: -90};
-var directions = [1,-1,1];
+var directions = [1,-1,1,1,-1,-1,1,-1,1];
 var grid = {};
 var colors = [
-	'#990000',
-  // '#990099',
-  '#246486',
-  // '#909a00',
-  '#65C865'
+	'#3891A6', //cyan
+  '#DB5461', //red
+  '#018E42', //green
+  '#e0ca2c', //yellow
+  '#9b4d9a', //purple
+  '#F48D2C', //orange
+  '#3878af', //blue dark
+  '#D2FF0A', //green fluorescent
+  '#DBD3AD', //white
 ];
 
 window.onload = function() {
