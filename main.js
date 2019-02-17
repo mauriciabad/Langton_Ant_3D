@@ -4,11 +4,14 @@ var pendingSteps = 0;
 var step = 0;
 var stepsPerFrame = 100;
 var floor = new THREE.Object3D();
+floor.name = 'floor';
 var ant = {x: 0, z: 0, dir: 0};
-// var directions = [1,-1,-1,1];
+var directions = [1,-1,-1,1];
+// var directions = [1,1,1,-1,-1,1,1,1];
+// var directions = [1,1,1,1,-1,1,1,1,1];
 // var directions = [1,-1,1];
 // var directions = [-1,1,1,1,1,1,1,-1,-1,1];
-var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
+// var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
 // var directions = [1,1,-1,-1,-1,1,-1,1,-1,1,1,-1];
 // var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
 var grid = {};
@@ -94,6 +97,23 @@ function animate() {
 function setStep(x) {
   let y = (x**6 / 10000**5 + x/10000)/1.0001; 
   if(!isNaN(y) && y >= 0) stepsPerFrame = y;
+}
+
+function setDirections(dir2) {
+  dir2Array = Array.from(dir2).map((elem) => (elem == 'R' || elem == 'r' || elem == '0' ? 1 : -1));
+  pendingSteps = 0;
+  step = 0;
+  step = 0;
+  scene.remove( scene.getObjectByName('floor') );
+  floor = new THREE.Object3D();
+  floor.name = 'floor';
+  scene.add(floor);
+  grid = {};
+  directions = dir2Array;
+  ant = {x: 0, z: 0, dir: 0};
+  moveAnt(0,0)
+  renderer.clear();
+  renderer.render(scene,camera);
 }
 
 function onWindowResize() {
