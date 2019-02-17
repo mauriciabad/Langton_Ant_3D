@@ -6,6 +6,13 @@
 
 [Inspiration](https://www.youtube.com/watch?v=1X-gtr4pEBU)
 
+## Explanation
+
+* The ant begins at 0,0 and initially makes a step to the cube in front of it. 
+* Every time the ant steps on a cube, this cube changes its color. 
+* Each color has a direction, meaning depending on the color of the cube the ant will turn left or right.
+* Therefore, depending on how many colors you make available and which direction you assign to each color, the ant will create different colored cube-based patterns.
+
 ## Authors
 
 * **Maurici Abad** - [@mauriciabad](https://github.com/mauriciabad)
