@@ -11,22 +11,21 @@
 
 </head>
 <body>
-    <div id="canvas">
-        <span class="step">Step: <span id="step">0</span></span>
-        <div class="controls" >
-            <h2>Controls</h2>
-            <div class="input-group">
-                <label for="speed">Steps per frame:</label>
-                <input type="number" id="speed" name="speed" value="10" onkeyup="let val = parseInt(this.value); if(!isNaN(val) && val >=0) stepsPerFrame = val;" step="1" min="0" required>
-            </div>
-            <h2>Steps</h2>
-            <div class="step-tiles">
-                <div class="tile" data-color="0">
+    <div id="canvas"></div>
+    <span class="step">Step: <span id="step">0</span></span>
+    <div class="controls" >
+        <h2>Controls</h2>
+        <div class="input-group">
+            <label for="speed">Steps per frame:</label>
+            <input type="number" id="speed" name="speed" value="1" onkeyup="let val = parseFloat(this.value.replace(/,/, '.')); if(!isNaN(val) && val >= 0) stepsPerFrame = val;" step="0.01" min="0" required>
+        </div>
+        <h2 hidden>Steps</h2>
+        <div hidden class="step-tiles">
+            <div hidden class="tile" data-color="0">
                 <label for="tile-0">
                     <i class="fa fa-arrow-left"></i>
                     <input id="tile-0" type="checkbox">
                 </label>
-                </div>
             </div>
         </div>
     </div>

@@ -1,20 +1,25 @@
 var renderer, scene, camera, composer, antObj;
+var pendingSteps = 0;
 var step = 0;
-var stepsPerFrame = 10;
+var stepsPerFrame = 1;
 var floor = new THREE.Object3D();
-var ant = {x: 0, z: 0, dir: -90};
-var directions = [1,-1,1,1,-1,-1,1,-1,1];
+var ant = {x: 0, z: 0, dir: 0};
+var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1];
 var grid = {};
 var colors = [
 	'#3891A6', //cyan
   '#DB5461', //red
   '#018E42', //green
   '#e0ca2c', //yellow
-  '#9b4d9a', //purple
+  '#F896D8', //pink
+  '#DBD3AD', //white
+  '#87CBAC', //blue ice
   '#F48D2C', //orange
   '#3878af', //blue dark
+  '#9b4d9a', //purple
+  '#AD8350', //brown
+  '#4B5267', //gray
   '#D2FF0A', //green fluorescent
-  '#DBD3AD', //white
 ];
 
 window.onload = function() {
@@ -32,11 +37,11 @@ function init() {
 
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-  camera.position.set(10, 10, 10);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
+  camera.position.set(-10, 10, -10);
   camera.lookAt(new THREE.Vector3(0,0,0));
 
-    // Moure camera
+  // Move camera
   controls = new THREE.OrbitControls( camera, renderer.domElement );
 
   scene.add(camera);
@@ -44,12 +49,10 @@ function init() {
   scene.add(floor);
   
   antObj = addCube({
-        'x': 0, 
-        'y': 1, 
-        'z': 0,
-        'size': 0.95,
-        'color': '#222'
-      });
+    'x': 0, 'y': 1, 'z': 0,
+    'size': 0.95,
+    'color': '#222'
+  });
   scene.add(antObj);
   
   var ambientLight = new THREE.AmbientLight(0x999999 );
@@ -57,7 +60,7 @@ function init() {
   
   var lights = [];
   lights[0] = new THREE.DirectionalLight( 0xffffff, 0.8);
-  lights[0].position.set( 3, 3, 3 );
+  lights[0].position.set( -3, 3, -3 );
   scene.add( lights[0] );
   
   window.addEventListener('resize', onWindowResize, false);
@@ -78,7 +81,7 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function addCube({x = 0, y = 0, z = 0, color=0x990099, size=0.95} = {}) {
+function addCube({x = 0, y = 0, z = 0, color=0xDB5461, size=0.95} = {}) {
   var roundedBoxGeometry = createBoxWithRoundedEdges(size, size, size, .15, 3);
   roundedBoxGeometry.computeVertexNormals();  
 
@@ -93,15 +96,17 @@ function addCube({x = 0, y = 0, z = 0, color=0x990099, size=0.95} = {}) {
   return tile;
 }
 function move(steps = 1){
-  step += steps;
+  pendingSteps += steps;
+  let stepsToMove = Math.floor(pendingSteps);
+  pendingSteps -= stepsToMove;
+  step += stepsToMove;
   document.getElementById('step').textContent = step;
-  for(let i=0; i<steps; i++) nextStep();
+  for(let i=0; i<stepsToMove; i++) nextStep();
 }
 function nextStep() {
   let x = ant.x.toString();
   let z = ant.z.toString();
-  antObj.position.x = ant.x;
-  antObj.position.z = ant.z;
+  moveAnt(ant.x, ant.z);
   if(grid[x] == undefined) grid[x] = {};
   if(grid[x][z] == undefined) {
     grid[x][z] = -1;
@@ -111,15 +116,19 @@ function nextStep() {
         'x': parseInt(x), 
         'y': 0, 
         'z': parseInt(z),
-        'color': colors[grid[x][z]+1 % colors.length]
+        'color': colors[((grid[x][z]+1) % directions.length) % colors.length]
       }));
-  grid[x][z] = (grid[x][z]+1) % colors.length;
+  grid[x][z] = (grid[x][z]+1) % directions.length;
   let deg = (directions[grid[x][z]] * 90 + ant.dir) % 360;
   ant.x += Math.round(Math.cos((deg*Math.PI)/180));
   ant.z += Math.round(Math.sin((deg*Math.PI)/180));
   ant.dir = deg;
 }
 
+function moveAnt(x=0,z=0) {
+  antObj.position.x = x + 0.5;
+  antObj.position.z = z + 0.5;
+}
 
 function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) {
   let shape = new THREE.Shape();
@@ -141,21 +150,3 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   geometry.center();
   return geometry;
 }
-
-
-// Cool effect with mouse hovering
-var mouse = {x:0,y:0};
-var cameraMoves = {x:0,y:0,z:-0.1,move:false,speed:0.2};
-
-
-function mouseMove(e){
-
-camera.position.x += Math.max(Math.min((e.clientX - mouse.x) * 0.01, cameraMoves.speed), -cameraMoves.speed);
-camera.position.z -= Math.max(Math.min((mouse.y - e.clientY) * 0.01, cameraMoves.speed), -cameraMoves.speed);
-
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-
-}
-
-window.addEventListener('mousemove', mouseMove);
