@@ -106,7 +106,10 @@ function addCube({x = 0, y = 0, z = 0, color=0} = {}) {
 
 function move(steps = 1){
   
-  step += steps;
+  pendingSteps += steps;
+  let stepsToMove = Math.floor(pendingSteps);
+  pendingSteps -= stepsToMove;
+  step += stepsToMove;
   document.getElementById('step').textContent = step;
 
   changed = {};
