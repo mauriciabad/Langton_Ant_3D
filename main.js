@@ -3,7 +3,7 @@ var step = 0;
 var stepsPerFrame = 1;
 var floor = new THREE.Object3D();
 var ant = {x: 0, z: 0, dir: 0};
-var directions = [1,-1,1,1,-1,-1,1,-1,1];
+var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1];
 var grid = {};
 var colors = [
 	'#3891A6', //cyan
