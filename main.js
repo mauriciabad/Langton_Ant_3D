@@ -7,8 +7,9 @@ var ant = {x: 0, z: 0, dir: 0};
 var directions = [1,1,1,-1,1,-1,-1,1,1,1,1,1,-1];
 var grid = {};
 var changed = {};
+var colorsRGB = [];
 var colors = [
-	'#3891A6', //cyan
+  '#3891A6', //cyan
   '#DB5461', //red
   '#018E42', //green
   '#e0ca2c', //yellow
@@ -26,6 +27,10 @@ var colors = [
 if (colors.length !== directions.length)       //
   alert('Mismatching colors and directions!')  //
 /////////////////////////////////////////////////
+
+for (var col of colors) {
+  colorsRGB.push(hexToRgb(col));
+}
 
 window.onload = function() {
   init();
@@ -113,7 +118,7 @@ function move(steps = 1){
     for (let z in changed[x]) {
       let cubeToChange = floor.getObjectByName( '('+x+','+z+')' )
       if (cubeToChange) {
-        cubeToChange.material.color = hexToRgb(colors[changed[x][z]]);
+        cubeToChange.material.color = colorsRGB[changed[x][z]];
       }
       else {
         floor.add(addCube({
@@ -173,15 +178,14 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   return geometry;
 }
 
-const hexToRgb = function(hex) {
+function hexToRgb(hex) {
   let l = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
              ,(m, r, g, b) => '#' + r + r + g + g + b + b)
     .substring(1).match(/.{2}/g)
     .map(x => parseInt(x, 16) / 255);
-  let d = {
+  return {
     'r': l[0],
     'g': l[1],
     'b': l[2]
   }
-  return d;
 }
