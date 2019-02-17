@@ -58,6 +58,7 @@ function init() {
 
   // Move camera
   controls = new THREE.OrbitControls( camera, renderer.domElement );
+  controls.enableKeys = false;
 
   scene.add(camera);
   
@@ -105,13 +106,15 @@ function addCube({x = 0, y = 0, z = 0, color=0} = {}) {
 }
 
 function move(steps = 1){
-  
-  step += steps;
+  pendingSteps += steps;
+  let stepsToMove = Math.floor(pendingSteps);
+  pendingSteps -= stepsToMove;
+  step += stepsToMove;
   document.getElementById('step').textContent = step;
 
   changed = {};
 
-  for(let i=0; i<steps; i++) nextStep();
+  for(let i=0; i<stepsToMove; i++) nextStep();
 
   for (let x in changed) {
     for (let z in changed[x]) {
