@@ -1,4 +1,5 @@
 var renderer, scene, camera, composer, antObj;
+var pendingSteps = 0;
 var step = 0;
 var stepsPerFrame = 1;
 var floor = new THREE.Object3D();
@@ -36,7 +37,7 @@ function init() {
 
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
   camera.position.set(-10, 10, -10);
   camera.lookAt(new THREE.Vector3(0,0,0));
 
@@ -48,12 +49,10 @@ function init() {
   scene.add(floor);
   
   antObj = addCube({
-        'x': 0, 
-        'y': 1, 
-        'z': 0,
-        'size': 0.95,
-        'color': '#222'
-      });
+    'x': 0, 'y': 1, 'z': 0,
+    'size': 0.95,
+    'color': '#222'
+  });
   scene.add(antObj);
   
   var ambientLight = new THREE.AmbientLight(0x999999 );
@@ -82,7 +81,7 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function addCube({x = 0, y = 0, z = 0, color=0x990099, size=0.95} = {}) {
+function addCube({x = 0, y = 0, z = 0, color=0xDB5461, size=0.95} = {}) {
   var roundedBoxGeometry = createBoxWithRoundedEdges(size, size, size, .15, 3);
   roundedBoxGeometry.computeVertexNormals();  
 
@@ -97,15 +96,18 @@ function addCube({x = 0, y = 0, z = 0, color=0x990099, size=0.95} = {}) {
   return tile;
 }
 function move(steps = 1){
-  step += steps;
+  pendingSteps += steps;
+  let stepsToMove = Math.floor(pendingSteps);
+  pendingSteps -= stepsToMove;
+  step += stepsToMove;
   document.getElementById('step').textContent = step;
-  for(let i=0; i<steps; i++) nextStep();
+  for(let i=0; i<stepsToMove; i++) nextStep();
 }
 function nextStep() {
   let x = ant.x.toString();
   let z = ant.z.toString();
-  antObj.position.x = ant.x;
-  antObj.position.z = ant.z;
+  antObj.position.x = ant.x + 0.5;
+  antObj.position.z = ant.z + 0.5;
   if(grid[x] == undefined) grid[x] = {};
   if(grid[x][z] == undefined) {
     grid[x][z] = -1;
@@ -145,21 +147,3 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   geometry.center();
   return geometry;
 }
-
-
-// Cool effect with mouse hovering
-var mouse = {x:0,y:0};
-var cameraMoves = {x:0,y:0,z:-0.1,move:false,speed:0.2};
-
-
-function mouseMove(e){
-
-camera.position.x += Math.max(Math.min((e.clientX - mouse.x) * 0.01, cameraMoves.speed), -cameraMoves.speed);
-camera.position.z -= Math.max(Math.min((mouse.y - e.clientY) * 0.01, cameraMoves.speed), -cameraMoves.speed);
-
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-
-}
-
-window.addEventListener('mousemove', mouseMove);
