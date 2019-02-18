@@ -30,6 +30,9 @@ var colors = [
   '#AD8350', //brown
   '#4B5267', //gray
   '#D2FF0A', //green fluorescent
+  '#9FDC70', //green smooth
+  '#FF8383', //pink intense
+  '#F79223', //orange intense
 ];
 var antMaterial = new THREE.MeshPhongMaterial( { color: '#555'} );
 
@@ -132,7 +135,7 @@ function onWindowResize() {
 }
 
 function addCube({x = 0, y = 0, z = 0, color=0,material} = {}) {
-  var tile = new THREE.Mesh(roundedBoxGeometry, (material) ? material : materials[color]);
+  var tile = new THREE.Mesh(roundedBoxGeometry, (material) ? material : materials[color%materials.length]);
   tile.position.x = x + 0.5;
   tile.position.y = y + 0.5;
   tile.position.z = z + 0.5;
@@ -155,7 +158,7 @@ function move(steps = 1){
     for (let z in changed[x]) {
       let cubeToChange = floor.getObjectByName( '('+x+','+z+')' )
       if (cubeToChange) {
-        cubeToChange.material = materials[changed[x][z]];
+        cubeToChange.material = materials[changed[x][z]%materials.length];
       }
       else {
         floor.add(addCube({
