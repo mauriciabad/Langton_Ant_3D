@@ -4,6 +4,14 @@
 
 :arrow_forward: [Live Demo](https://xlacasa.github.io/Langton_Ant_3D/) :arrow_backward:
 
+#### Some cool patterns to try:
+* R L L R
+* R R R L L R R R
+* R L R
+* L R R R R R R L L R
+* R R L L L R L R L R R L
+* R R L L L R L L L R R R
+
 ## Screenshots
 
 ![screenshot1](readme_media/screenshot1.png)
@@ -23,7 +31,7 @@ Just look at [this video](https://www.youtube.com/watch?v=1X-gtr4pEBU) :video_ca
 
 * **Speed Slider:** Amount of steps the ant will take per frame rendered. The more to the right, the faster the ant will go. **Note**: Extreme values might make your browser a bit slow. :snail:
 
-* **Steps Input:** Series of *R*s (rights) and *L*s (lefts). You can add or delete them as you like. The n-th letter refers to the direction the ant will take when it steps over the cube for the n-th time. So for example, *R L L R* would mean:
+* **Steps Input:** Series of *R*s or *1*s (rights) and *L*s or *0*s (lefts). You can add or delete them as you like. The n-th letter refers to the direction the ant will take when it steps over the cube for the n-th time. So for example, *R L L R* or *1 0 0 1* would mean:
 
     1)  the first time the ant steps over that cube, it turns to the *right*. 
 
@@ -36,6 +44,8 @@ Just look at [this video](https://www.youtube.com/watch?v=1X-gtr4pEBU) :video_ca
     5) the fifth time the sequence would start over, so it would go *right*.
 
 Also, remember you can zoom and rotate the camera around! :camera:
+
+
 
 ## Authors :boy:
 
