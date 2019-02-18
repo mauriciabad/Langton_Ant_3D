@@ -99,9 +99,9 @@ function setStep(x) {
   if(!isNaN(y) && y >= 0) stepsPerFrame = y;
 }
 
+
 function setDirections(dir2) {
   if(/[^Rr1Ll0]/.test(dir2)) {
-    //TODO: La alerta es molt lletja. Avisar a l'usuari d'una manera mes bonica
     console.log('Invalid characters!');
   }
   else {
