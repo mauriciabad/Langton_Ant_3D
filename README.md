@@ -14,7 +14,7 @@ Just look at [this video](https://www.youtube.com/watch?v=1X-gtr4pEBU) :video_ca
 
 ## Explanation
 
-* The ant begins at 0,0 and initially makes a step to the cube in front of it. 
+* The ant begins at (0,0) and initially makes a step to the cube in front of it. 
 * Every time the ant steps on a cube, this cube changes its color. 
 * Each color has a direction, meaning depending on the color of the cube the ant will turn left or right.
 * Therefore, depending on how many colors you make available and which direction you assign to each color, the ant will create different colored cube-based patterns.
@@ -23,17 +23,17 @@ Just look at [this video](https://www.youtube.com/watch?v=1X-gtr4pEBU) :video_ca
 
 * **Speed Slider:** Amount of steps the ant will take per frame rendered. The more to the right, the faster the ant will go. **Note**: Extreme values might make your browser a bit slow. :snail:
 
-* **Steps Input:** Series of Rs (rights) and Ls (lefts). You can add or delete them as you like. The n-th letter refers to the direction the ant will take when it steps over the cube for the n-th time. So for example, *R L L R* would mean:
+* **Steps Input:** Series of *R*s (rights) and *L*s (lefts). You can add or delete them as you like. The n-th letter refers to the direction the ant will take when it steps over the cube for the n-th time. So for example, *R L L R* would mean:
 
-    1.  the first time the ant steps over that cube, it turns to the *right*. 
+    1)  the first time the ant steps over that cube, it turns to the *right*. 
 
-    2. the second time it returns and steps over that same cube it will turn to the *left*.
+    2) the second time it returns and steps over that same cube it will turn to the *left*.
 
-    3. the third time it will turn to the *right*.
+    3) the third time it will turn to the *right*.
 
-    4. the fourth time it will turn to the *left*.
+    4) the fourth time it will turn to the *left*.
 
-    5. the fifth time the sequence would start over, so it would go *right*.
+    5) the fifth time the sequence would start over, so it would go *right*.
 
 Also, remember you can zoom and rotate the camera around! :camera:
 
