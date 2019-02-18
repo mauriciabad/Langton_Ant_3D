@@ -100,20 +100,23 @@ function setStep(x) {
 }
 
 function setDirections(dir2) {
-  dir2Array = Array.from(dir2).map((elem) => (elem == 'R' || elem == 'r' || elem == '0' ? 1 : -1));
-  pendingSteps = 0;
-  step = 0;
-  step = 0;
-  scene.remove( scene.getObjectByName('floor') );
-  floor = new THREE.Object3D();
-  floor.name = 'floor';
-  scene.add(floor);
-  grid = {};
-  directions = dir2Array;
-  ant = {x: 0, z: 0, dir: 0};
-  moveAnt(0,0)
-  renderer.clear();
-  renderer.render(scene,camera);
+  dir2Array = Array.from(dir2).map((elem) => (elem == 'R' || elem == 'r' || elem == '1' ? 1 : -1));
+  if (JSON.stringify(directions) !== JSON.stringify(dir2Array)) {
+    let changed = false;
+    for (let num of dir2Array)
+    pendingSteps = 0;
+    step = 0;
+    scene.remove( scene.getObjectByName('floor') );
+    floor = new THREE.Object3D();
+    floor.name = 'floor';
+    scene.add(floor);
+    grid = {};
+    directions = dir2Array;
+    ant = {x: 0, z: 0, dir: 0};
+    moveAnt(0,0)
+    renderer.clear();
+    renderer.render(scene,camera);
+  }
 }
 
 function onWindowResize() {
@@ -203,3 +206,4 @@ function createBoxWithRoundedEdges( width, height, depth, radius0, smoothness ) 
   geometry.center();
   return geometry;
 }
+
