@@ -2,7 +2,11 @@ var renderer, scene, camera, composer, antObj;
 var materials = [];
 var pendingSteps = 0;
 var step = 0;
-var stepsPerFrame = 100;
+var stepsPerFrame =  100;
+if(localStorage.stepInputValue) {
+  setStep(localStorage.stepInputValue);
+  document.getElementById('speed').value = localStorage.stepInputValue;
+}
 var floor = new THREE.Object3D();
 floor.name = 'floor';
 var ant = {x: 0, z: 0, dir: 0};
@@ -60,7 +64,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
-  camera.position.set(-10, 10, -10);
+  camera.position.set(-20, 20, -20);
   camera.lookAt(new THREE.Vector3(0,0,0));
 
   // Move camera
@@ -99,7 +103,7 @@ function animate() {
 
 function setStep(x) {
   let y = (x**6 / 10000**5 + x/10000)/1.0001; 
-  if(!isNaN(y) && y >= 0) stepsPerFrame = y;
+  if(!isNaN(y) && y >= 0) { stepsPerFrame = y; localStorage.stepInputValue = parseFloat(x); }
 }
 
 
