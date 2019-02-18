@@ -5,12 +5,12 @@
 :arrow_forward: [Live Demo](https://xlacasa.github.io/Langton_Ant_3D/) :arrow_backward:
 
 #### Some cool patterns to try:
-* R L L R
-* R R R L L R R R
-* R L R
-* L R R R R R R L L R
-* R R L L L R L R L R R L
-* R R L L L R L L L R R R
+* RLLR
+* RRRLLRRR
+* RLR
+* LRRRRRRLLR
+* RRLLLRLRLRRL
+* RRLLLRLLLRRR
 
 ## Screenshots
 
