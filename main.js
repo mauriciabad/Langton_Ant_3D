@@ -102,7 +102,7 @@ function setStep(x) {
 function setDirections(dir2) {
   if(/[^Rr1Ll0]/.test(dir2)) {
     //TODO: La alerta es molt lletja. Avisar a l'usuari d'una manera mes bonica
-    alert('Invalid characters!\nCharacters allowed are:\n For right: R r 1\nFor left: L l 0 ');
+    console.log('Invalid characters!');
   }
   else {
     dir2Array = Array.from(dir2).map((elem) => (elem == 'R' || elem == 'r' || elem == '1' ? 1 : -1));

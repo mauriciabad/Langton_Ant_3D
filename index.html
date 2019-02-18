@@ -19,7 +19,7 @@
             <input class="slider" id="speed" type="range" value="5150" min="0" max="10000" step="1" oninput="setStep(parseFloat(this.value.replace(/,/, '.')));">
         </div>
         <h2>Steps</h2>
-        <input type="text" placeholder="RLLR" value="RLLR" onkeyup="setDirections(this.value);">
+        <input type="text" placeholder="RLLR" value="RLLR" onkeyup="setDirections(this.value);" pattern="[Rr1Ll0]+">
         <div hidden class="step-tiles">
             <div hidden class="tile" data-color="0">
                 <label for="tile-0">
