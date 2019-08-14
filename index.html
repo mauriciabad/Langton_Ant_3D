@@ -19,7 +19,19 @@
             <input class="slider" id="speed" type="range" value="5150" min="0" max="10000" step="1" oninput="setStep(parseFloat(this.value.replace(/,/, '.')));">
         </div>
         <h2>Steps</h2>
-        <input type="text" placeholder="RLLR" value="RLLR" onkeyup="setDirections(this.value);" pattern="[Rr1Ll0]+">
+        <input type="text" placeholder="RLLR" value="" list="cool-patterns" onkeyup="setDirections(this.value);" pattern="[Rr1Ll0]+">
+        <datalist id="cool-patterns">
+            <option value="RLLR">Maya</option>
+            <option value="RRRLLRRR">Brain</option>
+            <option value="RRL">Highway</option>
+            <option value="LRRRRRRLLR">Pipes</option>
+            <option value="RRLLLRLRLRRL">Drunk</option>
+            <option value="RRLLLRLLLRRR">Triangle</option>
+            <option value="RRLRLRR">Triangle 2</option>
+            <option value="RRRLRRLRRR">Triangle 3</option>
+            <option value="RRLRR">Square</option>
+            <option value="RRRLLLRRLLLRRR">Spikes</option>
+        </datalist>
         <div hidden class="step-tiles">
             <div hidden class="tile" data-color="0">
                 <label for="tile-0">

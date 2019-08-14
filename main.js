@@ -110,7 +110,7 @@ function setStep(x) {
 
 
 function setDirections(dir2) {
-  if(/[^Rr1Ll0]/.test(dir2)) {
+  if(!/[Rr1Ll0]+/.test(dir2)) {
     console.log('Invalid characters!');
   }
   else {
