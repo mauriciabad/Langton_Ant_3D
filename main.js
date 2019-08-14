@@ -8,7 +8,7 @@ if(localStorage.stepInputValue) {
   document.getElementById('speed').value = localStorage.stepInputValue;
 }
 var floor = new THREE.Object3D();
-var floorObj = {};
+var floorMap = new Map();
 floor.name = 'floor';
 var ant = {x: 0, z: 0, dir: 0};
 var directions = [1,-1,-1,1];
@@ -19,8 +19,8 @@ var directions = [1,-1,-1,1];
 // var directions = [1,1,-1,-1,-1,1,-1,1,-1,-1,1];
 // var directions = [1,1,-1,-1,-1,1,-1,1,-1,1,1,-1];
 // var directions = [1,1,-1,-1,-1,1,-1,-1,-1,1,1,1];
-var grid = {};
-var changed = {};
+var grid = new Map();
+var changed = new Map();
 var colors = [
   '#DB5461', //red
   '#3891A6', //cyan
@@ -39,10 +39,11 @@ var colors = [
   '#FF8383', //pink intense
   '#F79223', //orange intense
 ];
+var stepCounter = document.getElementById('step');
 var antMaterial = new THREE.MeshPhongMaterial( { color: '#555'} );
 
-for (var col of colors) {
-  materials.push(new THREE.MeshPhongMaterial( { color: col} ));
+for (let i = 0; i < colors.length; i++) {
+  materials.push(new THREE.MeshPhongMaterial( { color: colors[i]} ));
 }
 
 var roundedBoxGeometry = createBoxWithRoundedEdges(0.95, 0.95, 0.95, .15, 2);
@@ -116,15 +117,15 @@ function setDirections(dir2) {
     dir2Array = Array.from(dir2).map((elem) => (elem == 'R' || elem == 'r' || elem == '1' ? 1 : -1));
     if (JSON.stringify(directions) !== JSON.stringify(dir2Array)) {
       let changed = false;
-      for (let num of dir2Array)
+      // for (let num of dir2Array)
       pendingSteps = 0;
       step = 0;
       scene.remove( scene.getObjectByName('floor') );
       floor = new THREE.Object3D();
-      floorObj = {};
+      floorMap.clear();
       floor.name = 'floor';
       scene.add(floor);
-      grid = {};
+      grid.clear();
       directions = dir2Array;
       ant = {x: 0, z: 0, dir: 0};
       moveAnt(0,0)
@@ -154,46 +155,42 @@ function move(steps = 1){
   let stepsToMove = Math.floor(pendingSteps);
   pendingSteps -= stepsToMove;
   step += stepsToMove;
-  document.getElementById('step').textContent = step;
+  stepCounter.textContent = step;
 
-  changed = {};
+  changed.clear();
 
   for(let i=0; i<stepsToMove; i++) nextStep();
 
-  for (let x in changed) {
-    for (let z in changed[x]) {
-      let cubeToChange = floorObj[`(${x},${z})`];
-      if (cubeToChange) {
-        cubeToChange.material = materials[changed[x][z]%materials.length];
-      }
-      else {
-        let cube = addCube({
-          'x': parseInt(x), 'y': 0, 'z': parseInt(z),
-          'color': changed[x][z]
-        });
-        floorObj[`(${x},${z})`] = cube;
-        floor.add(floorObj[`(${x},${z})`]); 
-      }
+  	
+  for (let [key,n] of changed.entries()) {  
+    if (floorMap.has(key)) {
+      floorMap.get(key).material = materials[n%materials.length];
+    }
+    else {
+      let [x,z] = JSON.parse(key);  
+      let cube = addCube({
+        'x': parseInt(x), 'y': 0, 'z': parseInt(z),
+        'color': n
+      });
+      floorMap.set(key, cube);
+      floor.add(cube); 
     }
   }
 }
 function nextStep() {
-  let x = ant.x.toString();
-  let z = ant.z.toString();
   moveAnt(ant.x, ant.z);
 
-  if(grid[x] == undefined) {
-    grid[x] = {};
-  }
-  if(grid[x][z] == undefined) {
-    grid[x][z] = -1;
-  }
-  if (changed[x] == undefined) {
-    changed[x] = {};
-  }
-  changed[x][z] = (grid[x][z]+1) % directions.length;
-  grid[x][z] = (grid[x][z]+1) % directions.length;
-  let deg = (directions[grid[x][z]] * 90 + ant.dir) % 360;
+  let key = JSON.stringify([ant.x,ant.z]);
+
+  let gridXZ = grid.get(key);
+  if(gridXZ === undefined) gridXZ = -1;
+  
+  let newTileStep = (gridXZ + 1) % directions.length;
+
+  changed.set(key, newTileStep);
+  grid.set(   key, newTileStep);
+
+  let deg = (directions[newTileStep] * 90 + ant.dir) % 360;
   ant.x += Math.round(Math.cos((deg*Math.PI)/180));
   ant.z += Math.round(Math.sin((deg*Math.PI)/180));
   ant.dir = deg;
