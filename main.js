@@ -8,6 +8,7 @@ if(localStorage.stepInputValue) {
   document.getElementById('speed').value = localStorage.stepInputValue;
 }
 var floor = new THREE.Object3D();
+var floorObj = {};
 floor.name = 'floor';
 var ant = {x: 0, z: 0, dir: 0};
 var directions = [1,-1,-1,1];
@@ -120,6 +121,7 @@ function setDirections(dir2) {
       step = 0;
       scene.remove( scene.getObjectByName('floor') );
       floor = new THREE.Object3D();
+      floorObj = {};
       floor.name = 'floor';
       scene.add(floor);
       grid = {};
@@ -143,7 +145,7 @@ function addCube({x = 0, y = 0, z = 0, color=0,material} = {}) {
   tile.position.x = x + 0.5;
   tile.position.y = y + 0.5;
   tile.position.z = z + 0.5;
-  tile.name = '('+x+','+z+')';
+  tile.name = `(${x},${z})`;
   return tile;
 }
 
@@ -160,15 +162,17 @@ function move(steps = 1){
 
   for (let x in changed) {
     for (let z in changed[x]) {
-      let cubeToChange = floor.getObjectByName( '('+x+','+z+')' )
+      let cubeToChange = floorObj[`(${x},${z})`];
       if (cubeToChange) {
         cubeToChange.material = materials[changed[x][z]%materials.length];
       }
       else {
-        floor.add(addCube({
+        let cube = addCube({
           'x': parseInt(x), 'y': 0, 'z': parseInt(z),
           'color': changed[x][z]
-        })); 
+        });
+        floorObj[`(${x},${z})`] = cube;
+        floor.add(floorObj[`(${x},${z})`]); 
       }
     }
   }
