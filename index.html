@@ -19,7 +19,7 @@
             <input class="slider" id="speed" type="range" value="5150" min="0" max="10000" step="1" oninput="setStep(parseFloat(this.value.replace(/,/, '.')));">
         </div>
         <h2>Steps</h2>
-        <input type="text" placeholder="RLLR" value="" list="cool-patterns" onkeyup="setDirections(this.value);" pattern="[Rr1Ll0]+">
+        <input class="pattern" type="search" placeholder="RLLR" value="" list="cool-patterns" onkeyup="setDirections(this.value);" pattern="[Rr1Ll0]+">
         <datalist id="cool-patterns">
             <option value="RLLR">Maya</option>
             <option value="RRRLLRRR">Brain</option>

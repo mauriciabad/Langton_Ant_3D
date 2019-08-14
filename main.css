@@ -171,3 +171,14 @@ input:invalid{
   cursor: move;
   box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.15);
 }
+
+.pattern{
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+.pattern::-webkit-search-cancel-button{
+  filter: grayscale(100%);
+  cursor: pointer;
+}
