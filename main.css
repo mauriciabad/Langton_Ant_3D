@@ -29,7 +29,7 @@ canvas{
   padding: 1.5em;
   box-sizing: border-box;
   color: #333;
-  overflow-y: scroll;
+  overflow-y: auto;
   scroll-behavior: smooth;
   z-index: 1;
 }
