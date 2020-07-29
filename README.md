@@ -2,7 +2,7 @@
 
 ## Test it out!
 
-:arrow_forward: [Live Demo](https://xlacasa.github.io/Langton_Ant_3D/) :arrow_backward:
+:arrow_forward: [Live Demo](https://lacadev.github.io/Langton_Ant_3D/) :arrow_backward:
 
 #### Some cool patterns to try:
 * RLLR
