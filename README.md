@@ -2,7 +2,7 @@
 
 ## Test it out!
 
-:arrow_forward: [Live Demo](https://lacadev.github.io/Langton_Ant_3D/) :arrow_backward:
+:arrow_forward: [Live Demo](https://mauriciabad.github.io/Langton_Ant_3D/) :arrow_backward:
 
 #### Some cool patterns to try:
 * RLLR
@@ -44,10 +44,3 @@ Just look at [this video](https://www.youtube.com/watch?v=1X-gtr4pEBU) :video_ca
     5) the fifth time the sequence would start over, so it would go *right*.
 
 Also, remember you can zoom and rotate the camera around! :camera:
-
-
-
-## Authors :boy:
-
-* **Maurici Abad** - [@mauriciabad](https://github.com/mauriciabad)
-* **Xavier Lacasa** - [@xlacasa](https://github.com/xlacasa)
